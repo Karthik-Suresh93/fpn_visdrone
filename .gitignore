@@ -1,0 +1,9 @@
+*.pyc
+*.so
+*.a
+*.slurm
+*.o
+*.e
+*.jpg
+res101/
+logs/
