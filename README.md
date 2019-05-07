@@ -23,4 +23,21 @@ model    | GPUs | Batch Size | lr        | lr_decay | max_epoch     |  Speed/epo
 ---------|-----------|----|-----------|-----|-----|-------|--------|--------
 Res-101    | 8 TitanX | 24| 1e-2 | 10  | 12  |  0.22 hr | 9688MB  | 74.2
 
-**Results on coco are on the way**.
+## Preparation
+
+First of all, clone the code
+
+```
+git clone https://github.com/Karthik-Suresh93/fpn_visdrone.git
+```
+
+Then, create a folder:
+
+```
+cd fpn_visdrone && mkdir data
+```
+
+Visdrone/UAVDT/PASCAL_VOC 07+12: Please download the visdrone annotations from [here] (https://drive.google.com/drive/folders/1hIlXfzLHb3VwzyX3C7G_R0f1UPmzC-yC?usp=sharing) and place it inside data/.
+ 
+ 
+
