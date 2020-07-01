@@ -17,7 +17,6 @@ from model.utils.config import cfg
 from generate_anchors import generate_anchors, generate_anchors_all_pyramids
 from bbox_transform import bbox_transform_inv, clip_boxes, clip_boxes_batch
 from model.nms.nms_wrapper import nms
-from model.nms.nms_wrapper import soft_nms
 
 import pdb
 
@@ -108,9 +107,8 @@ class _ProposalLayer_FPN(nn.Module):
             # 6. apply nms (e.g. threshold = 0.7)
             # 7. take after_nms_topN (e.g. 300)
             # 8. return the top proposals (-> RoIs top)
-            keep_idx_i = nms(torch.cat((proposals_single, scores_single), 1), nms_thresh, force_cpu=False)
-            #keep_idx_i = soft_nms(torch.cat((proposals_single, scores_single), 1), 0.7)
 
+            keep_idx_i = nms(torch.cat((proposals_single, scores_single), 1), nms_thresh)
             keep_idx_i = keep_idx_i.long().view(-1)
 
             if post_nms_topN > 0:

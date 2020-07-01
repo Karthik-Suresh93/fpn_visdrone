@@ -226,12 +226,13 @@ class resnet(_FPN):
 
   def _init_modules(self):
     resnet = resnet101()
-
+    import pdb; pdb.set_trace()
     if self.pretrained == True:
       print("Loading pretrained weights from %s" %(self.model_path))
       state_dict = torch.load(self.model_path)
       resnet.load_state_dict({k:v for k,v in state_dict.items() if k in resnet.state_dict()})
-
+    
+    import pdb; pdb.set_trace()
     self.RCNN_layer0 = nn.Sequential(resnet.conv1, resnet.bn1, resnet.relu, resnet.maxpool)
     self.RCNN_layer1 = nn.Sequential(resnet.layer1)
     self.RCNN_layer2 = nn.Sequential(resnet.layer2)

@@ -34,6 +34,7 @@ from model.utils.net_utils import weights_normal_init, save_net, load_net, \
       adjust_learning_rate, save_checkpoint, clip_gradient
 
 from model.fpn.resnet import resnet
+from model.fpn.senet_krishna import senet
 
 def parse_args():
   """
@@ -117,7 +118,8 @@ def parse_args():
   parser.add_argument('--use_tfboard', dest='use_tfboard',
                       help='whether use tensorflow tensorboard',
                       default=False, type=bool)
-
+  parser.add_argument('--exp_name', dest='exp_name', help='name of the experiment', 
+                      default="", type=str)
   args = parser.parse_args()
   return args
 
@@ -175,7 +177,7 @@ if __name__ == '__main__':
   if args.dataset == "pascal_voc":
       args.imdb_name = "voc_2007_trainval"
       args.imdbval_name = "voc_2007_test"
-      args.set_cfgs = ['FPN_ANCHOR_SCALES', '[8, 16, 32, 64, 128]', 'FPN_FEAT_STRIDES', '[2,4, 8, 16, 32]', 'MAX_NUM_GT_BOXES', '20']
+      args.set_cfgs = ['FPN_ANCHOR_SCALES', '[8, 16, 32, 64, 128]', 'FPN_FEAT_STRIDES', '[2,4, 8, 16, 32]', 'MAX_NUM_GT_BOXES', '75']
       #EDIT: REMOVED THE FIFTH SCALE...P6 REMOVAL
       #args.set_cfgs = ['FPN_ANCHOR_SCALES', '[8, 16, 32,64]', 'FPN_FEAT_STRIDES', '[4, 8, 16, 32]', 'MAX_NUM_GT_BOXES', '50'] #EDIT [32,64,128,256]
 
@@ -223,7 +225,7 @@ if __name__ == '__main__':
 
   _print('{:d} roidb entries'.format(len(roidb)), logging)
 
-  output_dir = "fpn_visdrone_vehicles" + "/" + args.net + "/" + args.dataset
+  output_dir = "models" + "/" + args.net + "/" + args.exp_name
   if not os.path.exists(output_dir):
     os.makedirs(output_dir)
 
@@ -264,6 +266,9 @@ if __name__ == '__main__':
     FPN = resnet(imdb.classes, 50, pretrained=True, class_agnostic=args.class_agnostic)
   elif args.net == 'res152':
     FPN = resnet(imdb.classes, 152, pretrained=True, class_agnostic=args.class_agnostic)
+  
+  elif args.net == 'senet50':
+    FPN = senet(imdb.classes, 50, pretrained=True, class_agnostic=args.class_agnostic)
   else:
     print("network is not defined")
     pdb.set_trace()
@@ -291,6 +296,9 @@ if __name__ == '__main__':
   elif args.optimizer == "sgd":
     optimizer = torch.optim.SGD(params, momentum=cfg.TRAIN.MOMENTUM)
 
+  if args.cuda:
+    FPN.cuda()
+
   if args.resume:
     load_name = os.path.join(output_dir,
       'fpn_{}_{}_{}.pth'.format(args.checksession, args.checkepoch, args.checkpoint))
@@ -308,8 +316,8 @@ if __name__ == '__main__':
   if args.mGPUs:
     FPN = nn.DataParallel(FPN)
 
-  if args.cuda:
-    FPN.cuda()
+  #if args.cuda: #EDIT: MOVING IT BEFORE THE ARGS.RESUME CHECK, TO RESOLVE RESUME TRAINING ISSUE.
+    #FPN.cuda()
 
   iters_per_epoch = int(train_size / args.batch_size)
 
@@ -339,7 +347,7 @@ if __name__ == '__main__':
 
       loss = rpn_loss_cls.mean() + rpn_loss_box.mean() \
            + RCNN_loss_cls.mean() + RCNN_loss_bbox.mean()
-      loss_temp += loss.data[0]
+      loss_temp += loss.item()#data[0] EDIT : data[0]
 
       # backward
       optimizer.zero_grad()
@@ -352,17 +360,17 @@ if __name__ == '__main__':
           loss_temp /= args.disp_interval
 
         if args.mGPUs:
-          loss_rpn_cls = rpn_loss_cls.mean().data[0]
-          loss_rpn_box = rpn_loss_box.mean().data[0]
-          loss_rcnn_cls = RCNN_loss_cls.mean().data[0]
-          loss_rcnn_box = RCNN_loss_bbox.mean().data[0]
+          loss_rpn_cls = rpn_loss_cls.mean().item()#.data[0] EDIT
+          loss_rpn_box = rpn_loss_box.mean().item()#.data[0]  EDIT
+          loss_rcnn_cls = RCNN_loss_cls.mean().item()#data[0] EDIT
+          loss_rcnn_box = RCNN_loss_bbox.mean().item()#data[0] EDIT
           fg_cnt = torch.sum(roi_labels.data.ne(0))
           bg_cnt = roi_labels.data.numel() - fg_cnt
         else:
-          loss_rpn_cls = RCNN_rpn.rpn_loss_cls.data[0]
-          loss_rpn_box = RCNN_rpn.rpn_loss_box.data[0]
-          loss_rcnn_cls = RCNN_loss_cls.data[0]
-          loss_rcnn_box = RCNN_loss_bbox.data[0]
+          loss_rpn_cls = rpn_loss_cls.item()#data[0] #DOUBLE EDIT (REMOVED RCNN_RPN.rpn_loss...)
+          loss_rpn_box = rpn_loss_box.item() #data[0] #DOUBLE EDIT (same as above)
+          loss_rcnn_cls = RCNN_loss_cls.item() #data[0] EDIT 
+          loss_rcnn_box = RCNN_loss_bbox.item() #.data[0] EDIT
           fg_cnt = torch.sum(roi_labels.data.ne(0))
           bg_cnt = roi_labels.data.numel() - fg_cnt
 

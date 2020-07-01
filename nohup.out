@@ -1,0 +1,375 @@
+/home/ec2-user/fpn_visdrone/lib/model/utils/config.py:384: YAMLLoadWarning: calling yaml.load() without Loader=... is deprecated, as the default Loader is unsafe. Please read https://msg.pyyaml.org/load for full details.
+  yaml_cfg = edict(yaml.load(f))
+Called with args:
+Namespace(batch_size=4, checkepoch=1, checkpoint=0, checkpoint_interval=10000, checksession=1, class_agnostic=False, cuda=True, dataset='pascal_voc', disp_interval=100, exp_name='val_only_image_corrected', lr=0.001, lr_decay_gamma=0.1, lr_decay_step=5, lscale=False, mGPUs=False, max_epochs=50, net='res101', num_workers=0, optimizer='sgd', resume=False, save_dir='./', session=1, start_epoch=1, use_tfboard=False)
+Using config:
+{'ANCHOR_RATIOS': [0.5, 1, 2],
+ 'ANCHOR_SCALES': [8, 16, 32],
+ 'CROP_RESIZE_WITH_MAX_POOL': False,
+ 'CUDA': False,
+ 'DATA_DIR': '/home/ec2-user/fpn_visdrone/data',
+ 'DEDUP_BOXES': 0.0625,
+ 'EPS': 1e-14,
+ 'EXP_DIR': 'res101',
+ 'FEAT_STRIDE': [16],
+ 'FPN_ANCHOR_SCALES': [8, 16, 32, 64, 128],
+ 'FPN_ANCHOR_STRIDE': 1,
+ 'FPN_FEAT_STRIDES': [2, 4, 8, 16, 32],
+ 'GPU_ID': 0,
+ 'HAS_MASK': True,
+ 'MATLAB': 'matlab',
+ 'MAX_NUM_GT_BOXES': 75,
+ 'MOBILENET': {'DEPTH_MULTIPLIER': 1.0,
+               'FIXED_LAYERS': 5,
+               'REGU_DEPTH': False,
+               'WEIGHT_DECAY': 4e-05},
+ 'PIXEL_MEANS': array([[[92.91790999, 96.41846472, 95.03526863]]]),
+ 'POOLING_MODE': 'align',
+ 'POOLING_SIZE': 7,
+ 'RESNET': {'FIXED_BLOCKS': 1, 'MAX_POOL': False},
+ 'RNG_SEED': 3,
+ 'ROOT_DIR': '/home/ec2-user/fpn_visdrone',
+ 'TEST': {'BBOX_REG': True,
+          'HAS_RPN': True,
+          'MAX_SIZE': 1200,
+          'MODE': 'nms',
+          'NMS': 0.3,
+          'PROPOSAL_METHOD': 'gt',
+          'RPN_MIN_SIZE': 16,
+          'RPN_NMS_THRESH': 0.7,
+          'RPN_POST_NMS_TOP_N': 300,
+          'RPN_PRE_NMS_TOP_N': 6000,
+          'RPN_TOP_N': 5000,
+          'SCALES': [800],
+          'SVM': False},
+ 'TRAIN': {'ASPECT_GROUPING': False,
+           'BATCH_SIZE': 128,
+           'BBOX_INSIDE_WEIGHTS': [1.0, 1.0, 1.0, 1.0],
+           'BBOX_NORMALIZE_MEANS': [0.0, 0.0, 0.0, 0.0],
+           'BBOX_NORMALIZE_STDS': [0.1, 0.1, 0.2, 0.2],
+           'BBOX_NORMALIZE_TARGETS': True,
+           'BBOX_NORMALIZE_TARGETS_PRECOMPUTED': True,
+           'BBOX_REG': True,
+           'BBOX_THRESH': 0.5,
+           'BG_THRESH_HI': 0.5,
+           'BG_THRESH_LO': 0.0,
+           'BIAS_DECAY': False,
+           'BN_TRAIN': False,
+           'DISPLAY': 20,
+           'DOUBLE_BIAS': False,
+           'FG_FRACTION': 0.25,
+           'FG_THRESH': 0.5,
+           'GAMMA': 0.1,
+           'HAS_RPN': True,
+           'IMS_PER_BATCH': 1,
+           'LEARNING_RATE': 0.001,
+           'MAX_SIZE': 1000,
+           'MOMENTUM': 0.9,
+           'PROPOSAL_METHOD': 'gt',
+           'RPN_BATCHSIZE': 256,
+           'RPN_BBOX_INSIDE_WEIGHTS': [1.0, 1.0, 1.0, 1.0],
+           'RPN_CLOBBER_POSITIVES': False,
+           'RPN_FG_FRACTION': 0.5,
+           'RPN_MIN_SIZE': 8,
+           'RPN_NEGATIVE_OVERLAP': 0.3,
+           'RPN_NMS_THRESH': 0.7,
+           'RPN_POSITIVE_OVERLAP': 0.7,
+           'RPN_POSITIVE_WEIGHT': -1.0,
+           'RPN_POST_NMS_TOP_N': 2000,
+           'RPN_PRE_NMS_TOP_N': 12000,
+           'SCALES': [600],
+           'SNAPSHOT_ITERS': 5000,
+           'SNAPSHOT_KEPT': 3,
+           'SNAPSHOT_PREFIX': 'res101_faster_rcnn',
+           'STEPSIZE': [30000],
+           'SUMMARY_INTERVAL': 180,
+           'TRIM_HEIGHT': 600,
+           'TRIM_WIDTH': 600,
+           'TRUNCATED': False,
+           'USE_ALL_GT': True,
+           'USE_FLIPPED': True,
+           'USE_GT': False,
+           'WEIGHT_DECAY': 0.0001},
+ 'USE_GPU_NMS': True}
+##############################
+('num_classes:', 11)
+##############################
+Loaded dataset `voc_2007_trainval` for training
+Set proposal method: gt
+Appending horizontally-flipped training examples...
+wrote gt roidb to /home/ec2-user/fpn_visdrone/data/cache/voc_2007_trainval_gt_roidb.pkl
+done
+Preparing training data...
+done
+##############################
+('num_classes:', 11)
+##############################
+before filtering, there are 1096 images...
+after filtering, there are 1096 images...
+1096 roidb entries
+Loading pretrained weights from data/pretrained_model/resnet101_caffe.pth
+[session 1][epoch  1][iter    0] loss: 3.9626, lr: 1.00e-03
+			fg/bg=(122/390), time cost: 5.769332
+			rpn_cls: 0.7072, rpn_box: 0.7327, rcnn_cls: 2.3900, rcnn_box 0.1328
+[session 1][epoch  1][iter  100] loss: 2.1851, lr: 1.00e-03
+			fg/bg=(124/388), time cost: 588.334817
+			rpn_cls: 0.2835, rpn_box: 0.4802, rcnn_cls: 0.8250, rcnn_box 0.0501
+[session 1][epoch  1][iter  200] loss: 1.7666, lr: 1.00e-03
+			fg/bg=(128/384), time cost: 597.662179
+			rpn_cls: 0.4460, rpn_box: 0.3795, rcnn_cls: 0.8895, rcnn_box 0.3187
+save model: models/res101/val_only_image_corrected/fpn_1_1_273.pth
+436.367195129
+[session 1][epoch  2][iter    0] loss: 1.5712, lr: 1.00e-03
+			fg/bg=(128/384), time cost: 5.152670
+			rpn_cls: 0.1393, rpn_box: 0.3354, rcnn_cls: 0.7467, rcnn_box 0.3498
+[session 1][epoch  2][iter  100] loss: 1.6905, lr: 1.00e-03
+			fg/bg=(128/384), time cost: 595.622410
+			rpn_cls: 0.3124, rpn_box: 0.2603, rcnn_cls: 0.6025, rcnn_box 0.4783
+[session 1][epoch  2][iter  200] loss: 1.6776, lr: 1.00e-03
+			fg/bg=(128/384), time cost: 595.843465
+			rpn_cls: 0.2738, rpn_box: 0.3662, rcnn_cls: 0.6675, rcnn_box 0.3972
+save model: models/res101/val_only_image_corrected/fpn_1_2_273.pth
+434.451584101
+[session 1][epoch  3][iter    0] loss: 1.4826, lr: 1.00e-03
+			fg/bg=(128/384), time cost: 5.173008
+			rpn_cls: 0.1778, rpn_box: 0.2840, rcnn_cls: 0.6556, rcnn_box 0.3653
+[session 1][epoch  3][iter  100] loss: 1.5039, lr: 1.00e-03
+			fg/bg=(128/384), time cost: 591.365254
+			rpn_cls: 0.1446, rpn_box: 0.0576, rcnn_cls: 0.3968, rcnn_box 0.4127
+[session 1][epoch  3][iter  200] loss: 1.4531, lr: 1.00e-03
+			fg/bg=(128/384), time cost: 591.481088
+			rpn_cls: 0.1824, rpn_box: 0.3528, rcnn_cls: 0.5270, rcnn_box 0.3543
+save model: models/res101/val_only_image_corrected/fpn_1_3_273.pth
+432.479879856
+[session 1][epoch  4][iter    0] loss: 1.2837, lr: 1.00e-03
+			fg/bg=(128/384), time cost: 5.209774
+			rpn_cls: 0.2652, rpn_box: 0.2738, rcnn_cls: 0.4639, rcnn_box 0.2808
+[session 1][epoch  4][iter  100] loss: 1.3960, lr: 1.00e-03
+			fg/bg=(128/384), time cost: 591.564512
+			rpn_cls: 0.4285, rpn_box: 0.1936, rcnn_cls: 0.7367, rcnn_box 0.3232
+[session 1][epoch  4][iter  200] loss: 1.3592, lr: 1.00e-03
+			fg/bg=(128/384), time cost: 591.684297
+			rpn_cls: 0.1966, rpn_box: 0.2621, rcnn_cls: 0.4843, rcnn_box 0.3627
+save model: models/res101/val_only_image_corrected/fpn_1_4_273.pth
+433.01946497
+[session 1][epoch  5][iter    0] loss: 1.1858, lr: 1.00e-03
+			fg/bg=(128/384), time cost: 5.185788
+			rpn_cls: 0.1649, rpn_box: 0.2890, rcnn_cls: 0.4961, rcnn_box 0.2358
+[session 1][epoch  5][iter  100] loss: 1.3172, lr: 1.00e-03
+			fg/bg=(105/407), time cost: 592.929680
+			rpn_cls: 0.1843, rpn_box: 0.0857, rcnn_cls: 0.3032, rcnn_box 0.1772
+[session 1][epoch  5][iter  200] loss: 1.2663, lr: 1.00e-03
+			fg/bg=(128/384), time cost: 595.905373
+			rpn_cls: 0.2376, rpn_box: 0.2021, rcnn_cls: 0.3979, rcnn_box 0.2577
+save model: models/res101/val_only_image_corrected/fpn_1_5_273.pth
+434.80665803
+[session 1][epoch  6][iter    0] loss: 1.3969, lr: 1.00e-04
+			fg/bg=(128/384), time cost: 5.238893
+			rpn_cls: 0.2776, rpn_box: 0.2766, rcnn_cls: 0.5720, rcnn_box 0.2707
+[session 1][epoch  6][iter  100] loss: 1.1941, lr: 1.00e-04
+			fg/bg=(128/384), time cost: 596.322035
+			rpn_cls: 0.0968, rpn_box: 0.3188, rcnn_cls: 0.4731, rcnn_box 0.2727
+[session 1][epoch  6][iter  200] loss: 1.1663, lr: 1.00e-04
+			fg/bg=(128/384), time cost: 597.219832
+			rpn_cls: 0.2541, rpn_box: 0.1854, rcnn_cls: 0.4512, rcnn_box 0.2477
+save model: models/res101/val_only_image_corrected/fpn_1_6_273.pth
+436.301194906
+[session 1][epoch  7][iter    0] loss: 1.0347, lr: 1.00e-04
+			fg/bg=(128/384), time cost: 5.186251
+			rpn_cls: 0.1614, rpn_box: 0.1613, rcnn_cls: 0.4668, rcnn_box 0.2451
+[session 1][epoch  7][iter  100] loss: 1.1778, lr: 1.00e-04
+			fg/bg=(128/384), time cost: 597.256549
+			rpn_cls: 0.1705, rpn_box: 0.4402, rcnn_cls: 0.5442, rcnn_box 0.3539
+[session 1][epoch  7][iter  200] loss: 1.1741, lr: 1.00e-04
+			fg/bg=(128/384), time cost: 596.597393
+			rpn_cls: 0.2410, rpn_box: 0.3239, rcnn_cls: 0.6314, rcnn_box 0.3224
+save model: models/res101/val_only_image_corrected/fpn_1_7_273.pth
+436.682859898
+[session 1][epoch  8][iter    0] loss: 1.0865, lr: 1.00e-04
+			fg/bg=(128/384), time cost: 5.233233
+			rpn_cls: 0.2100, rpn_box: 0.1589, rcnn_cls: 0.4339, rcnn_box 0.2837
+[session 1][epoch  8][iter  100] loss: 1.1568, lr: 1.00e-04
+			fg/bg=(128/384), time cost: 597.507233
+			rpn_cls: 0.1102, rpn_box: 0.2132, rcnn_cls: 0.4515, rcnn_box 0.2694
+[session 1][epoch  8][iter  200] loss: 1.1826, lr: 1.00e-04
+			fg/bg=(128/384), time cost: 599.503852
+			rpn_cls: 0.2045, rpn_box: 0.1143, rcnn_cls: 0.3674, rcnn_box 0.2295
+save model: models/res101/val_only_image_corrected/fpn_1_8_273.pth
+436.91211009
+[session 1][epoch  9][iter    0] loss: 0.8564, lr: 1.00e-04
+			fg/bg=(128/384), time cost: 5.244094
+			rpn_cls: 0.1854, rpn_box: 0.1163, rcnn_cls: 0.3314, rcnn_box 0.2233
+[session 1][epoch  9][iter  100] loss: 1.1516, lr: 1.00e-04
+			fg/bg=(128/384), time cost: 596.546026
+			rpn_cls: 0.1042, rpn_box: 0.1769, rcnn_cls: 0.4423, rcnn_box 0.3077
+[session 1][epoch  9][iter  200] loss: 1.1658, lr: 1.00e-04
+			fg/bg=(128/384), time cost: 596.430776
+			rpn_cls: 0.1694, rpn_box: 0.1743, rcnn_cls: 0.3622, rcnn_box 0.1897
+save model: models/res101/val_only_image_corrected/fpn_1_9_273.pth
+436.805417061
+[session 1][epoch 10][iter    0] loss: 1.3075, lr: 1.00e-04
+			fg/bg=(128/384), time cost: 5.161652
+			rpn_cls: 0.1465, rpn_box: 0.2591, rcnn_cls: 0.6283, rcnn_box 0.2736
+[session 1][epoch 10][iter  100] loss: 1.1693, lr: 1.00e-04
+			fg/bg=(128/384), time cost: 594.839106
+			rpn_cls: 0.1958, rpn_box: 0.3282, rcnn_cls: 0.5211, rcnn_box 0.2345
+[session 1][epoch 10][iter  200] loss: 1.1352, lr: 1.00e-04
+			fg/bg=(128/384), time cost: 591.108920
+			rpn_cls: 0.2021, rpn_box: 0.5149, rcnn_cls: 0.3306, rcnn_box 0.2217
+save model: models/res101/val_only_image_corrected/fpn_1_10_273.pth
+431.627846003
+[session 1][epoch 11][iter    0] loss: 1.2497, lr: 1.00e-04
+			fg/bg=(128/384), time cost: 5.054200
+			rpn_cls: 0.1097, rpn_box: 0.2657, rcnn_cls: 0.5877, rcnn_box 0.2865
+[session 1][epoch 11][iter  100] loss: 1.1134, lr: 1.00e-04
+			fg/bg=(128/384), time cost: 590.576944
+			rpn_cls: 0.0417, rpn_box: 0.0739, rcnn_cls: 0.4225, rcnn_box 0.4423
+[session 1][epoch 11][iter  200] loss: 1.1473, lr: 1.00e-04
+			fg/bg=(128/384), time cost: 598.630026
+			rpn_cls: 0.1444, rpn_box: 0.2533, rcnn_cls: 0.3602, rcnn_box 0.2485
+save model: models/res101/val_only_image_corrected/fpn_1_11_273.pth
+437.608855009
+[session 1][epoch 12][iter    0] loss: 1.1817, lr: 1.00e-05
+			fg/bg=(128/384), time cost: 5.231581
+			rpn_cls: 0.1824, rpn_box: 0.2236, rcnn_cls: 0.4357, rcnn_box 0.3400
+[session 1][epoch 12][iter  100] loss: 1.1225, lr: 1.00e-05
+			fg/bg=(128/384), time cost: 599.584421
+			rpn_cls: 0.2938, rpn_box: 0.1909, rcnn_cls: 0.4628, rcnn_box 0.2341
+[session 1][epoch 12][iter  200] loss: 1.1342, lr: 1.00e-05
+			fg/bg=(128/384), time cost: 597.889834
+			rpn_cls: 0.1380, rpn_box: 0.2757, rcnn_cls: 0.5207, rcnn_box 0.2455
+save model: models/res101/val_only_image_corrected/fpn_1_12_273.pth
+438.265694141
+[session 1][epoch 13][iter    0] loss: 1.0709, lr: 1.00e-05
+			fg/bg=(113/399), time cost: 5.229360
+			rpn_cls: 0.1592, rpn_box: 0.2593, rcnn_cls: 0.3819, rcnn_box 0.2704
+[session 1][epoch 13][iter  100] loss: 1.1414, lr: 1.00e-05
+			fg/bg=(128/384), time cost: 596.797929
+			rpn_cls: 0.1251, rpn_box: 0.2217, rcnn_cls: 0.3858, rcnn_box 0.2330
+[session 1][epoch 13][iter  200] loss: 1.1340, lr: 1.00e-05
+			fg/bg=(105/407), time cost: 597.465656
+			rpn_cls: 0.1311, rpn_box: 0.0917, rcnn_cls: 0.2348, rcnn_box 0.1697
+save model: models/res101/val_only_image_corrected/fpn_1_13_273.pth
+436.692990065
+[session 1][epoch 14][iter    0] loss: 1.0003, lr: 1.00e-05
+			fg/bg=(128/384), time cost: 5.113949
+			rpn_cls: 0.2171, rpn_box: 0.1665, rcnn_cls: 0.4401, rcnn_box 0.1767
+[session 1][epoch 14][iter  100] loss: 1.1422, lr: 1.00e-05
+			fg/bg=(128/384), time cost: 588.697176
+			rpn_cls: 0.0852, rpn_box: 0.5188, rcnn_cls: 0.6290, rcnn_box 0.2082
+[session 1][epoch 14][iter  200] loss: 1.1171, lr: 1.00e-05
+			fg/bg=(123/389), time cost: 590.043352
+			rpn_cls: 0.2230, rpn_box: 0.1285, rcnn_cls: 0.2785, rcnn_box 0.2109
+save model: models/res101/val_only_image_corrected/fpn_1_14_273.pth
+434.588919878
+[session 1][epoch 15][iter    0] loss: 1.1447, lr: 1.00e-05
+			fg/bg=(128/384), time cost: 5.105123
+			rpn_cls: 0.1398, rpn_box: 0.2587, rcnn_cls: 0.5053, rcnn_box 0.2411
+[session 1][epoch 15][iter  100] loss: 1.1046, lr: 1.00e-05
+			fg/bg=(128/384), time cost: 592.996539
+			rpn_cls: 0.1656, rpn_box: 0.3459, rcnn_cls: 0.4779, rcnn_box 0.2447
+[session 1][epoch 15][iter  200] loss: 1.1645, lr: 1.00e-05
+			fg/bg=(128/384), time cost: 592.222572
+			rpn_cls: 0.3004, rpn_box: 0.1623, rcnn_cls: 0.5060, rcnn_box 0.2731
+save model: models/res101/val_only_image_corrected/fpn_1_15_273.pth
+432.444876909
+[session 1][epoch 16][iter    0] loss: 0.8290, lr: 1.00e-05
+			fg/bg=(128/384), time cost: 5.184397
+			rpn_cls: 0.1413, rpn_box: 0.1293, rcnn_cls: 0.3115, rcnn_box 0.2469
+[session 1][epoch 16][iter  100] loss: 1.1448, lr: 1.00e-05
+			fg/bg=(128/384), time cost: 590.588363
+			rpn_cls: 0.2528, rpn_box: 0.5345, rcnn_cls: 0.6103, rcnn_box 0.2826
+[session 1][epoch 16][iter  200] loss: 1.1118, lr: 1.00e-05
+			fg/bg=(128/384), time cost: 591.046055
+			rpn_cls: 0.2612, rpn_box: 0.1371, rcnn_cls: 0.4195, rcnn_box 0.2496
+save model: models/res101/val_only_image_corrected/fpn_1_16_273.pth
+432.445876122
+[session 1][epoch 17][iter    0] loss: 1.2756, lr: 1.00e-05
+			fg/bg=(128/384), time cost: 5.187628
+			rpn_cls: 0.1667, rpn_box: 0.3024, rcnn_cls: 0.5694, rcnn_box 0.2370
+[session 1][epoch 17][iter  100] loss: 1.1196, lr: 1.00e-05
+			fg/bg=(128/384), time cost: 590.518870
+			rpn_cls: 0.2040, rpn_box: 0.1797, rcnn_cls: 0.4863, rcnn_box 0.1759
+[session 1][epoch 17][iter  200] loss: 1.1017, lr: 1.00e-05
+			fg/bg=(128/384), time cost: 589.961809
+			rpn_cls: 0.1460, rpn_box: 0.3030, rcnn_cls: 0.4086, rcnn_box 0.2466
+save model: models/res101/val_only_image_corrected/fpn_1_17_273.pth
+431.564749956
+[session 1][epoch 18][iter    0] loss: 1.1136, lr: 1.00e-06
+			fg/bg=(128/384), time cost: 5.184409
+			rpn_cls: 0.1802, rpn_box: 0.1772, rcnn_cls: 0.4941, rcnn_box 0.2620
+[session 1][epoch 18][iter  100] loss: 1.1303, lr: 1.00e-06
+			fg/bg=(128/384), time cost: 589.998250
+			rpn_cls: 0.1618, rpn_box: 0.2562, rcnn_cls: 0.4623, rcnn_box 0.2731
+[session 1][epoch 18][iter  200] loss: 1.1427, lr: 1.00e-06
+			fg/bg=(128/384), time cost: 589.931597
+			rpn_cls: 0.1878, rpn_box: 0.2763, rcnn_cls: 0.4286, rcnn_box 0.2677
+save model: models/res101/val_only_image_corrected/fpn_1_18_273.pth
+431.797449827
+[session 1][epoch 19][iter    0] loss: 1.0384, lr: 1.00e-06
+			fg/bg=(128/384), time cost: 5.166205
+			rpn_cls: 0.1680, rpn_box: 0.1813, rcnn_cls: 0.4546, rcnn_box 0.2346
+[session 1][epoch 19][iter  100] loss: 1.1203, lr: 1.00e-06
+			fg/bg=(128/384), time cost: 591.878233
+			rpn_cls: 0.1218, rpn_box: 0.6361, rcnn_cls: 0.6871, rcnn_box 0.2336
+[session 1][epoch 19][iter  200] loss: 1.1382, lr: 1.00e-06
+			fg/bg=(128/384), time cost: 592.839656
+			rpn_cls: 0.1752, rpn_box: 0.2242, rcnn_cls: 0.5222, rcnn_box 0.2777
+save model: models/res101/val_only_image_corrected/fpn_1_19_273.pth
+433.687598944
+[session 1][epoch 20][iter    0] loss: 1.0068, lr: 1.00e-06
+			fg/bg=(128/384), time cost: 5.184591
+			rpn_cls: 0.1861, rpn_box: 0.1506, rcnn_cls: 0.4640, rcnn_box 0.2061
+[session 1][epoch 20][iter  100] loss: 1.1734, lr: 1.00e-06
+			fg/bg=(128/384), time cost: 592.742134
+			rpn_cls: 0.2249, rpn_box: 0.3202, rcnn_cls: 0.4724, rcnn_box 0.2685
+[session 1][epoch 20][iter  200] loss: 1.0893, lr: 1.00e-06
+			fg/bg=(105/407), time cost: 593.192382
+			rpn_cls: 0.1311, rpn_box: 0.0920, rcnn_cls: 0.2116, rcnn_box 0.1607
+save model: models/res101/val_only_image_corrected/fpn_1_20_273.pth
+434.013332129
+[session 1][epoch 21][iter    0] loss: 0.9786, lr: 1.00e-06
+			fg/bg=(128/384), time cost: 5.200276
+			rpn_cls: 0.2078, rpn_box: 0.1510, rcnn_cls: 0.4212, rcnn_box 0.1986
+[session 1][epoch 21][iter  100] loss: 1.1224, lr: 1.00e-06
+			fg/bg=(128/384), time cost: 592.691649
+			rpn_cls: 0.2291, rpn_box: 0.2100, rcnn_cls: 0.5229, rcnn_box 0.2351
+[session 1][epoch 21][iter  200] loss: 1.1299, lr: 1.00e-06
+			fg/bg=(128/384), time cost: 591.525161
+			rpn_cls: 0.1992, rpn_box: 0.2320, rcnn_cls: 0.4136, rcnn_box 0.2162
+save model: models/res101/val_only_image_corrected/fpn_1_21_273.pth
+434.270904064
+[session 1][epoch 22][iter    0] loss: 1.0078, lr: 1.00e-06
+			fg/bg=(128/384), time cost: 5.166000
+			rpn_cls: 0.1451, rpn_box: 0.2212, rcnn_cls: 0.4369, rcnn_box 0.2046
+[session 1][epoch 22][iter  100] loss: 1.0981, lr: 1.00e-06
+			fg/bg=(128/384), time cost: 595.346869
+			rpn_cls: 0.2684, rpn_box: 0.2571, rcnn_cls: 0.6446, rcnn_box 0.2468
+[session 1][epoch 22][iter  200] loss: 1.1399, lr: 1.00e-06
+			fg/bg=(128/384), time cost: 594.028799
+			rpn_cls: 0.2071, rpn_box: 0.1840, rcnn_cls: 0.4994, rcnn_box 0.2022
+save model: models/res101/val_only_image_corrected/fpn_1_22_273.pth
+437.537209988
+[session 1][epoch 23][iter    0] loss: 1.3009, lr: 1.00e-06
+			fg/bg=(128/384), time cost: 5.288762
+			rpn_cls: 0.3035, rpn_box: 0.1616, rcnn_cls: 0.5355, rcnn_box 0.3003
+[session 1][epoch 23][iter  100] loss: 1.1682, lr: 1.00e-06
+			fg/bg=(128/384), time cost: 593.717702
+			rpn_cls: 0.1125, rpn_box: 0.5312, rcnn_cls: 0.4750, rcnn_box 0.2346
+[session 1][epoch 23][iter  200] loss: 1.1033, lr: 1.00e-06
+			fg/bg=(128/384), time cost: 592.060842
+			rpn_cls: 0.3232, rpn_box: 0.2517, rcnn_cls: 0.6066, rcnn_box 0.2378
+Traceback (most recent call last):
+  File "trainval_net.py", line 411, in <module>
+    }, save_name)
+  File "/home/ec2-user/fpn_visdrone/lib/model/utils/net_utils.py", line 150, in save_checkpoint
+    torch.save(state, filename)
+  File "/home/ec2-user/anaconda3/envs/pytorch0.4.0_py27/lib/python2.7/site-packages/torch/serialization.py", line 161, in save
+    return _with_file_like(f, "wb", lambda f: _save(obj, f, pickle_module, pickle_protocol))
+  File "/home/ec2-user/anaconda3/envs/pytorch0.4.0_py27/lib/python2.7/site-packages/torch/serialization.py", line 118, in _with_file_like
+    return body(f)
+  File "/home/ec2-user/anaconda3/envs/pytorch0.4.0_py27/lib/python2.7/site-packages/torch/serialization.py", line 161, in <lambda>
+    return _with_file_like(f, "wb", lambda f: _save(obj, f, pickle_module, pickle_protocol))
+  File "/home/ec2-user/anaconda3/envs/pytorch0.4.0_py27/lib/python2.7/site-packages/torch/serialization.py", line 238, in _save
+    serialized_storages[key]._write_file(f, _is_real_file(f))
+RuntimeError: Unknown error -1

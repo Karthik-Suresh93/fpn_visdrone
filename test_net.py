@@ -28,7 +28,7 @@ from roi_data_layer.roibatchLoader import roibatchLoader
 from model.utils.config import cfg, cfg_from_file, cfg_from_list, get_output_dir
 from model.rpn.bbox_transform import clip_boxes
 from model.nms.nms_wrapper import nms
-from model.nms.nms_wrapper import soft_nms
+#from model.nms.nms_wrapper import soft_nms
 from model.rpn.bbox_transform import bbox_transform_inv
 from model.utils.net_utils import vis_detections
 
@@ -54,7 +54,7 @@ def parse_args():
                       help='set config keys', default=None,
                       nargs=argparse.REMAINDER)
   parser.add_argument('--load_dir', dest='load_dir',
-                      help='directory to load models', default="./",
+                      help='directory to load models', default="./models",
                       nargs=argparse.REMAINDER)
   parser.add_argument('--cuda', dest='cuda',
                       help='whether use CUDA',
@@ -84,6 +84,10 @@ def parse_args():
                       help='visualization mode',
                       action='store_true')
   parser.add_argument('--sig',type = float)
+
+  parser.add_argument('--exp_name', dest='exp_name', help='the name of the experiment that resulted in this model being created',
+                      default='', type=str)
+
   args = parser.parse_args()
   return args
 
@@ -148,7 +152,7 @@ if __name__ == '__main__':
 
   print('{:d} roidb entries'.format(len(roidb)))
 
-  input_dir =  "fpn_visdrone_vehicles"+"/" + args.net + "/" + "pascal_voc"
+  input_dir =  "models"+"/" + args.net + "/" +args.exp_name
   print("input_dir is:", input_dir)
   assert os.path.exists(input_dir), "path {} does not exist".format(input_dir)
   if not os.path.exists(input_dir):
@@ -245,7 +249,7 @@ if __name__ == '__main__':
 
       scores = cls_prob.data
       boxes = rois.data[:, :, 1:5]
-
+      #import pdb; pdb.set_trace()
       if cfg.TEST.BBOX_REG:
           # Apply bounding-box regression deltas
           box_deltas = bbox_pred.data
@@ -267,7 +271,7 @@ if __name__ == '__main__':
           pred_boxes = boxes
 
       pred_boxes /= data[1][0][2].cuda()
-
+      #import pdb; pdb.set_trace()
       scores = scores.squeeze()
       pred_boxes = pred_boxes.squeeze()
       det_toc = time.time()
@@ -317,11 +321,12 @@ if __name__ == '__main__':
       # sys.stdout.flush()
 
       if vis:
+          print("writing result to images/results_i.png")
           cv2.imwrite('images/result%d.png' % (i), im2show)
           pdb.set_trace()
           #cv2.imshow('test', im2show)
           #cv2.waitKey(0)
-
+  #import pdb; pdb.set_trace()
   with open(det_file, 'wb') as f:
       cPickle.dump(all_boxes, f, cPickle.HIGHEST_PROTOCOL)
 
