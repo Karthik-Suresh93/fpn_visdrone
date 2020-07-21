@@ -99,7 +99,7 @@ class _FPN(nn.Module):
         So we choose bilinear upsample which supports arbitrary output sizes.
         '''
         _,_,H,W = y.size()
-        return F.upsample(x, size=(H,W), mode='bilinear') + y
+        return F.upsample(x, size=(H,W), mode='bilinear', align_corners=True) + y
 
     def _PyramidRoI_Feat(self, feat_maps, rois, im_info):
         ''' roi pool on pyramid feature maps'''
@@ -125,13 +125,10 @@ class _FPN(nn.Module):
         elif cfg.POOLING_MODE == 'align':
             roi_pool_feats = []
             box_to_levels = []
-            #feat_maps = [f.cuda(device = "cuda:1") for f in feat_maps]
             for i, l in enumerate(range(2, 6)):
                 if (roi_level == l).sum() == 0:
                     continue
-                #idx_l = (roi_level == l).nonzero().squeeze()
                 idx_l = (roi_level == l).nonzero().view(-1)
-
                 box_to_levels.append(idx_l)
                 scale = feat_maps[i].size(2) / im_info[0][0]
                 feat = self.RCNN_roi_align(feat_maps[i], rois[idx_l], scale)
@@ -181,10 +178,10 @@ class _FPN(nn.Module):
         p3 = self.RCNN_smooth2(p3)
         p2 = self._upsample_add(p3, self.RCNN_latlayer3(c2))
         p2 = self.RCNN_smooth3(p2)
-        #EDIT: REMOVING P6...
+
         p6 = self.maxpool2d(p5)
 
-        rpn_feature_maps = [p2, p3, p4, p5,p6] #EDIT: removing p6
+        rpn_feature_maps = [p2, p3, p4, p5, p6]
         mrcnn_feature_maps = [p2, p3, p4, p5]
 
         rois, rpn_loss_cls, rpn_loss_bbox = self.RCNN_rpn(rpn_feature_maps, im_info, gt_boxes, num_boxes)
@@ -237,7 +234,6 @@ class _FPN(nn.Module):
 
         # pooling features based on rois, output 14x14 map
         roi_pool_feat = self._PyramidRoI_Feat(mrcnn_feature_maps, rois, im_info)
-
         # feed pooled features to top model
         pooled_feat = self._head_to_tail(roi_pool_feat)
 
@@ -252,7 +248,7 @@ class _FPN(nn.Module):
 
         # compute object classification probability
         cls_score = self.RCNN_cls_score(pooled_feat)
-        cls_prob = F.softmax(cls_score)
+        cls_prob = F.softmax(cls_score,1)#  EDIT softmax(tensor) --> softmax (tensor,1) for pytorch 0.4.0
 
         RCNN_loss_cls = 0
         RCNN_loss_bbox = 0
@@ -269,11 +265,5 @@ class _FPN(nn.Module):
 
         if self.training:
             rois_label = rois_label.view(batch_size, -1)
-
-        if self.training:
-            rpn_loss_cls = torch.unsqueeze(rpn_loss_cls, 0)
-            rpn_loss_bbox = torch.unsqueeze(rpn_loss_bbox, 0)
-            RCNN_loss_cls = torch.unsqueeze(RCNN_loss_cls, 0)
-            RCNN_loss_bbox = torch.unsqueeze(RCNN_loss_bbox, 0)
 
         return rois, cls_prob, bbox_pred, rpn_loss_cls, rpn_loss_bbox, RCNN_loss_cls, RCNN_loss_bbox, rois_label

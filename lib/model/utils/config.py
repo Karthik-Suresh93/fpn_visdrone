@@ -60,10 +60,10 @@ __C.TRAIN.SUMMARY_INTERVAL = 180
 
 # Scale to use during training (can list multiple scales)
 # The scale is the pixel size of an image's shortest side
-__C.TRAIN.SCALES = (800,)   #EDIT: 600 --> 800
+__C.TRAIN.SCALES = (600,) #EDIT: 600 --> 800
 
 # Max pixel size of the longest side of a scaled input image
-__C.TRAIN.MAX_SIZE = 1200    #EDIT: 1000 --> 1200
+__C.TRAIN.MAX_SIZE = 1000 #EDIT: 1000 --> 1200
 
 # Trim size for input images to create minibatch
 __C.TRAIN.TRIM_HEIGHT = 600
@@ -165,10 +165,10 @@ __C.TEST = edict()
 
 # Scale to use during testing (can NOT list multiple scales)
 # The scale is the pixel size of an image's shortest side
-__C.TEST.SCALES = (800,)   #EDIT: 600 --> 800
+__C.TEST.SCALES = (800,) #EDIT: 600 --> 800
 
 # Max pixel size of the longest side of a scaled input image
-__C.TEST.MAX_SIZE = 1200   #EDIT: 1000 --> 1200
+__C.TEST.MAX_SIZE = 1200
 
 # Overlap threshold used for non-maximum suppression (suppress boxes with
 # IoU >= this threshold)
@@ -254,7 +254,7 @@ __C.DEDUP_BOXES = 1. / 16.
 # Pixel mean values (BGR order) as a (1, 1, 3) array
 # We use the same pixel mean for all networks even though it's not exactly what
 # they were trained with
-__C.PIXEL_MEANS = np.array([[[92.917909987495165, 96.41846471675818,95.035268631239916 ]]])  # EDITED
+__C.PIXEL_MEANS = np.array([[[92.917909987495165, 96.41846471675818,95.035268631239916 ]]]) #EDIT:
 
 # For reproducibility
 __C.RNG_SEED = 3
@@ -280,7 +280,7 @@ __C.USE_GPU_NMS = True
 # Default GPU device id
 __C.GPU_ID = 0
 
-__C.POOLING_MODE = 'align'
+__C.POOLING_MODE = 'crop'
 
 # Size of the pooled region after RoI pooling
 __C.POOLING_SIZE = 7
@@ -299,9 +299,9 @@ __C.ANCHOR_RATIOS = [0.5,1,2]
 __C.FEAT_STRIDE = [16, ]
 
 # Anchor scales for RPN_FPN
-__C.FPN_ANCHOR_SCALES =[32, 64, 128, 256,512] #[32, 64, 128, 256] #[32, 64, 128, 256]#, 512]  #EDIT: REMOVING P6 --> NUM_SCALES REDUCES BY 1
+__C.FPN_ANCHOR_SCALES = [32, 64, 128, 256, 512]
 # Feature stride for RPN_FPN
-__C.FPN_FEAT_STRIDES = [4,8,16,32,64] #[4,8,16,32]# 64]
+__C.FPN_FEAT_STRIDES = [4, 8, 16, 32, 64]
 # Anchor stride for RPN_FPN
 __C.FPN_ANCHOR_STRIDE = 1
 

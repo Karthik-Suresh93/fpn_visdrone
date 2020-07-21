@@ -18,7 +18,7 @@ def parse_rec(filename):
   objects = []
   for obj in tree.findall('object'):
     obj_struct = {}
-    obj_struct['name'] = obj.find('name').text
+    obj_struct['name'] = obj.find('name').text#EDIT: LOWERING CLASS NAME HERE, SO THAT CLASS NAMES ON THE FILE MATCH
     obj_struct['pose'] = obj.find('pose').text
     obj_struct['truncated'] = int(obj.find('truncated').text)
     obj_struct['difficult'] = int(obj.find('difficult').text)
@@ -131,7 +131,8 @@ def voc_eval(detpath,
   class_recs = {}
   npos = 0
   for imagename in imagenames:
-    R = [obj for obj in recs[imagename] if obj['name'] == classname]
+    #import pdb; pdb.set_trace()
+    R = [obj for obj in recs[imagename] if obj['name'] == classname] #EDIT: DATA HAS CAPTITALIZED CLASSES, SO THIS STEP!
     bbox = np.array([x['bbox'] for x in R])
     difficult = np.array([x['difficult'] for x in R]).astype(np.bool)
     det = [False] * len(R)
@@ -144,7 +145,7 @@ def voc_eval(detpath,
   detfile = detpath.format(classname)
   with open(detfile, 'r') as f:
     lines = f.readlines()
-
+  #import pdb; pdb.set_trace()
   splitlines = [x.strip().split(' ') for x in lines]
   image_ids = [x[0] for x in splitlines]
   confidence = np.array([float(x[1]) for x in splitlines])
@@ -160,14 +161,14 @@ def voc_eval(detpath,
     sorted_scores = np.sort(-confidence)
     BB = BB[sorted_ind, :]
     image_ids = [image_ids[x] for x in sorted_ind]
-
+    import pdb;pdb.set_trace()
     # go down dets and mark TPs and FPs
     for d in range(nd):
       R = class_recs[image_ids[d]]
       bb = BB[d, :].astype(float)
       ovmax = -np.inf
       BBGT = R['bbox'].astype(float)
-
+      #import pdb; pdb.set_trace()
       if BBGT.size > 0:
         # compute overlaps
         # intersection
@@ -187,8 +188,10 @@ def voc_eval(detpath,
         overlaps = inters / uni
         ovmax = np.max(overlaps)
         jmax = np.argmax(overlaps)
-
+        #import pdb; pdb.set_trace()
       if ovmax > ovthresh:
+        print("ovmax>ovthres", "!"*100)
+        #import pdb; pdb.set_trace()
         if not R['difficult'][jmax]:
           if not R['det'][jmax]:
             tp[d] = 1.
@@ -206,5 +209,5 @@ def voc_eval(detpath,
   # ground truth
   prec = tp / np.maximum(tp + fp, np.finfo(np.float64).eps)
   ap = voc_ap(rec, prec, use_07_metric)
-
+  #import pdb; pdb.set_trace()
   return rec, prec, ap

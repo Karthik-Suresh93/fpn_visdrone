@@ -41,7 +41,8 @@ class pascal_voc(imdb):
             else devkit_path
         self._data_path = os.path.join(self._devkit_path, 'VOC' + self._year)
         self._classes = ('__background__',  # always index 0
-                        'car'
+                        'pedestrian','people','bicycle',
+            		'car','van','truck','tricycle','awning-tricycle','bus','motor'
                          )
         print("#"*30)
         print("num_classes:", len(self._classes))
@@ -113,7 +114,6 @@ class pascal_voc(imdb):
     def gt_roidb(self):
         """
         Return the database of ground-truth regions of interest.
-
         This function loads/saves from/to a cache file to speed up future calls.
         """
         cache_file = os.path.join(self.cache_path, self.name + '_gt_roidb.pkl')
@@ -135,7 +135,6 @@ class pascal_voc(imdb):
         """
         Return the database of selective search regions of interest.
         Ground-truth ROIs are also included.
-
         This function loads/saves from/to a cache file to speed up future calls.
         """
         cache_file = os.path.join(self.cache_path,
@@ -160,6 +159,7 @@ class pascal_voc(imdb):
         return roidb
 
     def rpn_roidb(self):
+        import pdb; pdb.set_trace() #EDIT   
         if int(self._year) == 2007 or self._image_set != 'test':
             gt_roidb = self.gt_roidb()
             rpn_roidb = self._load_rpn_roidb(gt_roidb)
@@ -240,7 +240,6 @@ class pascal_voc(imdb):
             gt_classes[ix] = cls
             overlaps[ix, cls] = 1.0
             seg_areas[ix] = (x2 - x1 + 1) * (y2 - y1 + 1)
-
         overlaps = scipy.sparse.csr_matrix(overlaps)
 
         return {'boxes': boxes,
